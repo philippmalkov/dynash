@@ -1,0 +1,454 @@
+{
+  "Product": [
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "b31aa7"
+          },
+          "Title": {
+            "S": "Item#b31aa7"
+          },
+          "Price": {
+            "N": "440641"
+          },
+          "DepartmentId": {
+            "N": "5"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "fae7db"
+          },
+          "Title": {
+            "S": "Item#fae7db"
+          },
+          "Price": {
+            "N": "385999"
+          },
+          "DepartmentId": {
+            "N": "4"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "16ece7"
+          },
+          "Title": {
+            "S": "Item#16ece7"
+          },
+          "Price": {
+            "N": "518010"
+          },
+          "DepartmentId": {
+            "N": "1"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "8684da"
+          },
+          "Title": {
+            "S": "Item#8684da"
+          },
+          "Price": {
+            "N": "436193"
+          },
+          "DepartmentId": {
+            "N": "1"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "4e7de9"
+          },
+          "Title": {
+            "S": "Item#4e7de9"
+          },
+          "Price": {
+            "N": "122610"
+          },
+          "DepartmentId": {
+            "N": "1"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "03f3a1"
+          },
+          "Title": {
+            "S": "Item#03f3a1"
+          },
+          "Price": {
+            "N": "246059"
+          },
+          "DepartmentId": {
+            "N": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "788e95"
+          },
+          "Title": {
+            "S": "Item#788e95"
+          },
+          "Price": {
+            "N": "381131"
+          },
+          "DepartmentId": {
+            "N": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "5f1711"
+          },
+          "Title": {
+            "S": "Item#5f1711"
+          },
+          "Price": {
+            "N": "175251"
+          },
+          "DepartmentId": {
+            "N": "5"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "f5ee24"
+          },
+          "Title": {
+            "S": "Item#f5ee24"
+          },
+          "Price": {
+            "N": "358547"
+          },
+          "DepartmentId": {
+            "N": "4"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "b7b3a4"
+          },
+          "Title": {
+            "S": "Item#b7b3a4"
+          },
+          "Price": {
+            "N": "9576"
+          },
+          "DepartmentId": {
+            "N": "5"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "b307ac"
+          },
+          "Title": {
+            "S": "Item#b307ac"
+          },
+          "Price": {
+            "N": "526669"
+          },
+          "DepartmentId": {
+            "N": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "ff73eb"
+          },
+          "Title": {
+            "S": "Item#ff73eb"
+          },
+          "Price": {
+            "N": "21442"
+          },
+          "DepartmentId": {
+            "N": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "34d00f"
+          },
+          "Title": {
+            "S": "Item#34d00f"
+          },
+          "Price": {
+            "N": "113399"
+          },
+          "DepartmentId": {
+            "N": "4"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "5b038e"
+          },
+          "Title": {
+            "S": "Item#5b038e"
+          },
+          "Price": {
+            "N": "135201"
+          },
+          "DepartmentId": {
+            "N": "4"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "24ccc1"
+          },
+          "Title": {
+            "S": "Item#24ccc1"
+          },
+          "Price": {
+            "N": "258006"
+          },
+          "DepartmentId": {
+            "N": "3"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "fff5f1"
+          },
+          "Title": {
+            "S": "Item#fff5f1"
+          },
+          "Price": {
+            "N": "585300"
+          },
+          "DepartmentId": {
+            "N": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "daa2a5"
+          },
+          "Title": {
+            "S": "Item#daa2a5"
+          },
+          "Price": {
+            "N": "517471"
+          },
+          "DepartmentId": {
+            "N": "3"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "2a8146"
+          },
+          "Title": {
+            "S": "Item#2a8146"
+          },
+          "Price": {
+            "N": "578470"
+          },
+          "DepartmentId": {
+            "N": "3"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "74abe9"
+          },
+          "Title": {
+            "S": "Item#74abe9"
+          },
+          "Price": {
+            "N": "229663"
+          },
+          "DepartmentId": {
+            "N": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "887f6b"
+          },
+          "Title": {
+            "S": "Item#887f6b"
+          },
+          "Price": {
+            "N": "251720"
+          },
+          "DepartmentId": {
+            "N": "5"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "90f1d6"
+          },
+          "Title": {
+            "S": "Item#90f1d6"
+          },
+          "Price": {
+            "N": "60806"
+          },
+          "DepartmentId": {
+            "N": "3"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "ee14a3"
+          },
+          "Title": {
+            "S": "Item#ee14a3"
+          },
+          "Price": {
+            "N": "170225"
+          },
+          "DepartmentId": {
+            "N": "4"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "9aaaee"
+          },
+          "Title": {
+            "S": "Item#9aaaee"
+          },
+          "Price": {
+            "N": "519710"
+          },
+          "DepartmentId": {
+            "N": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "f8315a"
+          },
+          "Title": {
+            "S": "Item#f8315a"
+          },
+          "Price": {
+            "N": "578016"
+          },
+          "DepartmentId": {
+            "N": "2"
+          }
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "Id": {
+            "S": "982d46"
+          },
+          "Title": {
+            "S": "Item#982d46"
+          },
+          "Price": {
+            "N": "250634"
+          },
+          "DepartmentId": {
+            "N": "1"
+          }
+        }
+      }
+    }
+  ]
+}
