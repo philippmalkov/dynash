@@ -13,9 +13,8 @@ class Dymon extends DymonConfig {
     this.trackedMethods.forEach((methodName) => {
       const originalFunction = prototypeOfDynamo[methodName];
 
-      const self = this;
-      Dynamo[methodName] = function dymonWrapper(request = {}, reqCallback) {
-        const availableOutputChannels = self.getAvailableOutputChannels();
+      Dynamo[methodName] = (request = {}, reqCallback) => {
+        const availableOutputChannels = this.getAvailableOutputChannels();
 
         if (availableOutputChannels.length === 0) {
           if (reqCallback) {
@@ -25,7 +24,7 @@ class Dymon extends DymonConfig {
           return originalFunction.call(Dynamo, request);
         }
 
-        request.ReturnConsumedCapacity = self.consumedCapacityType;
+        request.ReturnConsumedCapacity = this.consumedCapacityType;
 
         const requestScope = new RequestScope({
           caller: methodName,
