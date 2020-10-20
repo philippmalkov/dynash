@@ -1,72 +1,26 @@
 const StatsD = require('hot-shots');
 const lo = require('lodash');
-const Rate = require('./Rate');
+const BaseChannel = require('./base');
 
 /**
- * @class module:Dymon.OutputChannel
+ * @class module:Dymon.BaseChannel
  */
-class OutputChannel {
+class StatsDChannel extends BaseChannel {
   constructor(props) {
-    this.rate = new Rate(props.rate);
+    super(props);
 
     this.client = new StatsD({
       prefix: 'dyn_',
       telegraf: true,
       globalTags: { env: process.env.NODE_ENV },
-      errorHandler: err => this.errorHandler(err),
+      errorHandler: this.errorHandler.bind(this),
       protocol: 'tcp',
     });
   }
 
+  // eslint-disable-next-line class-methods-use-this
   errorHandler(err) {
-    this.zclient = this.client;
     console.error(err);
-  }
-
-  checkBusy() {
-    const {
-      rate,
-      rate: {
-        hasDebounceTime,
-        hasRateSize,
-      },
-    } = this;
-
-    if (!hasDebounceTime && !hasRateSize) return false;
-
-    const timerStarted = rate.timer > 0;
-    const rateSizeNotExceeded = rate.calls < rate.size;
-
-    if (hasDebounceTime && hasRateSize) {
-      return timerStarted && rateSizeNotExceeded;
-    }
-    return (hasDebounceTime && timerStarted) || (hasRateSize && rateSizeNotExceeded);
-  }
-
-  requestAccess() {
-    const {
-      rate,
-      rate: {
-        hasDebounceTime,
-      },
-    } = this;
-
-    const allowedToWrite = !this.checkBusy();
-
-    if (allowedToWrite) {
-      rate.reset();
-
-      // Setting timer
-      if (hasDebounceTime) {
-        rate.timer = setTimeout(() => {
-          rate.timer = 0;
-        }, rate.debounceTime);
-      }
-    }
-
-    rate.calls += 1;
-
-    return allowedToWrite;
   }
 
   /**
@@ -205,4 +159,4 @@ class OutputChannel {
   }
 }
 
-module.exports = OutputChannel;
+module.exports = StatsDChannel;

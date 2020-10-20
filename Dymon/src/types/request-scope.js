@@ -1,4 +1,4 @@
-const Responses = require('./Responses');
+const Responses = require('./responses');
 const AllowedMethods = require('../constants/AllowedMethods');
 
 class RequestScope {
@@ -6,7 +6,7 @@ class RequestScope {
    * Stores scoped request data
    * @param {string} caller
    * @param {Object} request
-   * @param {module:Dymon.OutputChannel[]} outputChannels
+   * @param {module:Dymon.BaseChannel[]} outputChannels
    */
   constructor({ caller, request, outputChannels }) {
     if (!AllowedMethods.all.has(caller)) {
@@ -21,14 +21,13 @@ class RequestScope {
    * @param {Object} response
    */
   registerResponse(response) {
-    const output = Responses[this.caller](this.request, response);
+    const { caller, request } = this;
 
-    this.outputChannels.forEach((outputChannel) => {
-      outputChannel.send(output)
-        .catch((error) => {
-          console.error('An error occurred while sending output:', error); // TODO: logger
-        });
-    });
+    const output = Responses[caller](request, response);
+
+    return Promise.all(
+      this.outputChannels.map(outputChannel => outputChannel.send(output)),
+    );
   }
 }
 

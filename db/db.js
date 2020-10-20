@@ -1,5 +1,5 @@
 const DynamoDB = require('aws-sdk/clients/dynamodb');
-const Dymon = require('../Dymon/src/dymon');
+const { Dymon, StatsDChannel } = require('dymon');
 const dy2json = require('./dy2json');
 
 const DB = new DynamoDB({
@@ -13,7 +13,7 @@ const DB = new DynamoDB({
 
 const dymon = new Dymon({
   full: true,
-  outputChannels: [{}],
+  outputChannels: [new StatsDChannel({})],
 });
 
 dymon.patchDynamo(DB);

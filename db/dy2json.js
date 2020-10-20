@@ -1,5 +1,26 @@
 /* eslint-disable no-use-before-define */
 
+const DynamoType = {
+  number: 'N',
+  base64bin: 'B',
+  numberSet: 'NS',
+  binSet: 'BS',
+  stringSet: 'SS',
+  list: 'L',
+  map: 'M',
+  string: 'S',
+  bool: 'BOOL',
+  null: 'NULL',
+};
+
+function dy2json(dynJson) {
+  if (Array.isArray(dynJson)) {
+    return dynJson.map(typedObject => typedObjectToJson(typedObject));
+  }
+
+  return typedObjectToJson(dynJson);
+}
+
 class AttributeObject extends Object {
   constructor(type, value) {
     super();
@@ -38,39 +59,28 @@ function typedObjectToJson(typedObject) {
 
 function convertType(attributeObject) {
   switch (attributeObject.type) {
-    case 'N': // Number
+    case DynamoType.number: // Number
       return Number(attributeObject.value);
-    case 'NS': // Number Set
-      return singleTypedArrayToJson('N', attributeObject.value);
-    case 'B': // Binary base64 string
+    case DynamoType.numberSet: // Number Set
+      return singleTypedArrayToJson(DynamoType.number, attributeObject.value);
+    case DynamoType.base64bin: // Binary base64 string
       return Buffer.from(attributeObject.value, 'base64');
-    case 'BS': // Binary Set
-      return singleTypedArrayToJson('B', attributeObject.value);
-    case 'SS': // String Set
-      return singleTypedArrayToJson('S', attributeObject.value);
-    case 'L': // List
+    case DynamoType.binSet: // Binary Set
+      return singleTypedArrayToJson(DynamoType.base64bin, attributeObject.value);
+    case DynamoType.stringSet: // String Set
+      return singleTypedArrayToJson(DynamoType.string, attributeObject.value);
+    case DynamoType.list: // List
       return typedArrayToJson(attributeObject.value);
-    case 'M': // Map
+    case DynamoType.map: // Map
       return typedObjectToJson(attributeObject.value);
-    case 'S': // String
-    case 'BOOL': // Boolean
+    case DynamoType.string: // String
+    case DynamoType.bool: // Boolean
       return attributeObject.value;
-    case 'NULL':
+    case DynamoType.null:
       return null;
     default:
-      return 'unknown';
+      return '<UNKNOWN>';
   }
 }
 
-function Dy2Json(dynJson) {
-  if (Array.isArray(dynJson)) {
-    return dynJson.map((typedObject) => {
-      const jsonObject = typedObjectToJson(typedObject);
-      return jsonObject;
-    });
-  }
-
-  return typedObjectToJson(dynJson);
-}
-
-module.exports = Dy2Json;
+module.exports = dy2json;

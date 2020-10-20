@@ -1,7 +1,27 @@
-const DymonConfig = require('./types/DymonConfig');
-const RequestScope = require('./types/RequestScope');
+const AllowedMethods = require('./constants/AllowedMethods');
+const RequestScope = require('./types/request-scope');
 
-class Dymon extends DymonConfig {
+class Dymon {
+  constructor(props) {
+    let trackedMethods;
+
+    if (props.trackedMethods) {
+      trackedMethods = props.trackedMethods.filter(
+        rawMethod => AllowedMethods.all.has(rawMethod),
+      );
+    } else {
+      trackedMethods = AllowedMethods.all;
+    }
+
+    if (trackedMethods.length === 0) {
+      throw new Error('No methods for tracking passed.');
+    }
+
+    this.consumedCapacityType = props.full ? 'INDEXES' : 'TOTAL';
+    this.trackedMethods = trackedMethods;
+    this.outputChannels = props.outputChannels;
+  }
+
   getAvailableOutputChannels() {
     return this.outputChannels.filter(outputChannel => outputChannel.requestAccess());
   }

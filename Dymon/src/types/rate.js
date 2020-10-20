@@ -1,17 +1,17 @@
 const DefaultDebounceTime = 0;
 const DefaultRateSize = -1;
 
-const NumberWithMin = (inputNumber, min) => {
+const coerceNumberWithMin = (inputNumber, min) => {
   let number = Number(inputNumber);
   if (!number || number < min) number = min;
   return number;
 };
 
+/**
+ * @memberOf module:Dymon
+ */
 class Rate {
   constructor(props = {}) {
-    this._debounceTime = DefaultDebounceTime;
-    this._size = DefaultRateSize;
-
     this.debounceTime = props.debounceTime;
     this.size = props.size;
 
@@ -20,12 +20,12 @@ class Rate {
   }
 
   set debounceTime(time) {
-    this._debounceTime = NumberWithMin(time, DefaultDebounceTime);
+    this._debounceTime = coerceNumberWithMin(time, DefaultDebounceTime);
     return this._debounceTime;
   }
 
   set size(size) {
-    this._size = NumberWithMin(size, DefaultRateSize);
+    this._size = coerceNumberWithMin(size, DefaultRateSize);
     return this._size;
   }
 
