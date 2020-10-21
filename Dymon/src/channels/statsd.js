@@ -14,7 +14,7 @@ class StatsDChannel extends BaseChannel {
       telegraf: true,
       globalTags: { env: process.env.NODE_ENV },
       errorHandler: this.errorHandler.bind(this),
-      protocol: 'tcp',
+      protocol: 'udp',
     });
   }
 
@@ -83,10 +83,11 @@ class StatsDChannel extends BaseChannel {
         }),
         this.timing('ccu', lo.get(tableOutput.consumedCapacity.Table, 'CapacityUnits', 0), {
           type: 'table',
-          indexName: '<TOTAL>',
+          indexName: '<TABLE>',
           operation: common.operation,
           tableName: tableOutput.tableName,
         }),
+
         tableOutput.consumedCapacity.LocalSecondaryIndexes ? (
           Promise.all(
             lo.map(
