@@ -13,7 +13,7 @@ const updateProductsViaTransaction = require('./db-queries/updateProductsViaTran
 const scanSuppliersByNameBeginning = require('./db-queries/scanSuppliersByNameBeginning');
 const updateProduct = require('./db-queries/updateProduct');
 
-(async () => {
+async function go() {
   const allDepartments = await db.scan({ TableName: 'Department' }).promise();
   const allProducts = await db.scan({ TableName: 'Product' }).promise();
   const allSuppliers = await db.scan({ TableName: 'Supplier' }).promise();
@@ -85,10 +85,25 @@ const updateProduct = require('./db-queries/updateProduct');
   console.log(`Updating #${randomProduct.Id.S} product...`);
   const updatedProduct = await updateProduct(randomProduct);
   console.log(`#${randomProduct.Id.S} product are updated: its Price set from ${randomProduct.Price.N} to ${updatedProduct.Attributes.Price.N} cents...`);
-})()
-  .catch((err) => {
-    console.error('An unexpected error occurred while going through the way:', err);
-  })
-  .finally(() => Promise.all(
-    db.$Dymon.outputChannels.map(channel => channel.close()),
-  ));
+}
+
+function main() {
+  go()
+    .catch((err) => {
+      console.error('An unexpected error occurred while going through the way:', err);
+    })
+    .finally(() => {
+      setTimeout(() => {
+        main();
+      }, tools.getRandomFromArray([
+        500, // 500ms
+        5 * 1000, // 5s
+        10 * 1000, // 10s
+        60 * 1000, // 1m
+        1.5 * 60 * 1000, // 1.5m
+        2 * 60 * 1000, // 2m
+      ]));
+    });
+}
+
+main();
