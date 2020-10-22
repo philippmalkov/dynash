@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "generate": "node db/generation/upload.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Philipp Malkov",
