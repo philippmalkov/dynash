@@ -11,6 +11,7 @@
   "dependencies": {
     "@koa/cors": "^2.2.3",
     "aws-sdk": "^2.610.0",
+    "dotenv": "^8.2.0",
     "dymon": "link:./Dymon",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
