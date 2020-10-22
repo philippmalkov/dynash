@@ -93,9 +93,7 @@ function main() {
       console.error('An unexpected error occurred while going through the way:', err);
     })
     .finally(() => {
-      setTimeout(() => {
-        main();
-      }, tools.getRandomFromArray([
+      const msToWait = tools.getRandomFromArray([
         500, // 500ms
         1000, // 1s
         3 * 1000, // 3s
@@ -104,7 +102,11 @@ function main() {
         60 * 1000, // 1m
         1.5 * 60 * 1000, // 1.5m
         2 * 60 * 1000, // 2m
-      ]));
+      ]);
+
+      console.log('\nWaiting for', msToWait, 'ms...\n');
+
+      setTimeout(main, msToWait);
     });
 }
 
