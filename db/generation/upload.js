@@ -52,9 +52,8 @@ const Dynamo = require('../db');
 
   let tableIdx = 0;
   /* eslint-disable no-await-in-loop */
+  tablesCycle: // eslint-disable-line no-labels, no-restricted-syntax
   for (const [tableName, tableRecords] of tables) {
-    let isBreakAfterError = false;
-
     for (let leftSide = 0; leftSide < tableRecords.length; leftSide += recordsSplitSize) {
       const slicedRecords = tableRecords.slice(leftSide, leftSide + recordsSplitSize);
 
@@ -72,8 +71,7 @@ const Dynamo = require('../db');
           `An error occurred while sending ${partNumber}th records of '${tableName}' table:\n`,
           err,
         );
-        isBreakAfterError = true;
-        break;
+        break tablesCycle; // eslint-disable-line no-labels
       }
       console.info(`${partNumber}th records of '${tableName}' table are saved.`);
 
@@ -89,8 +87,7 @@ const Dynamo = require('../db');
             `An error occurred while saving '${tableName}' table record to cache:\n`,
             err,
           );
-          isBreakAfterError = true;
-          break;
+          break tablesCycle; // eslint-disable-line no-labels
         }
         console.info(`${partNumber}th records of '${tableName}' table are saved.`);
       }
@@ -98,23 +95,18 @@ const Dynamo = require('../db');
       if (tableIdx + 1 === tables.length && leftSide + recordsSplitSize > tableRecords.length) {
         // It was last sending
         console.info('All sent.');
-        break;
+        break tablesCycle; // eslint-disable-line no-labels
       }
 
       console.info('Waiting for a second...');
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
 
-    if (isBreakAfterError) {
-      break;
-    }
-
     tableIdx += 1;
   }
   /* eslint-enable no-await-in-loop */
 })()
-  .then(() => process.exit(0))
   .catch((err) => {
     console.error('Unexpected error occurred while records uploading:', err);
-    process.exit(0);
-  });
+  })
+  .finally(() => process.exit(0));

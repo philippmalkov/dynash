@@ -1,0 +1,62 @@
+service: dynash
+
+provider: aws
+
+resources:
+  Resources: # See CloudFormation docs - below is raw format
+    DepartmentDyTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Department
+        AttributeDefinitions:
+          - AttributeName: Id
+            AttributeType: N
+        KeySchema:
+          - AttributeName: Id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    ProductDyTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Product
+        AttributeDefinitions:
+          - AttributeName: Id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: Id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    SupplierDyTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: Supplier
+        AttributeDefinitions:
+          - AttributeName: Id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: Id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    SupplierProductDyTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: SupplierProduct
+        AttributeDefinitions:
+          - AttributeName: ProductId
+            AttributeType: S
+          - AttributeName: SupplierId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: ProductId
+            KeyType: HASH
+          - AttributeName: SupplierId
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
