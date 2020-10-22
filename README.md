@@ -1,6 +1,20 @@
 Yarn: `yarn`
 
-Install Telegraf (see docs for your distro).
+Create and run Telegraf:
+
+```
+docker run -d --name telegraf -p 8125:8125 telegraf
+```
+
+Go to the Telegraf container and edit config:
+
+```
+> docker exec -it telegraf bash
+container:/#> apt update && apt install nano
+container:/#> nano /etc/telegraf/telegraf.conf
+container:/#> exit
+> docker restart telegraf
+```
 
 Change Telegraf config sections or use your own (`telegraf.conf`):
 
@@ -84,7 +98,7 @@ Change Telegraf config sections or use your own (`telegraf.conf`):
 Create and run influxdb:
 
 ```
-docker run --name influxdb -p 8086:8086 quay.io/influxdb/influxdb:2.0.0-rc -d
+docker run -d --name influxdb -p 8086:8086 quay.io/influxdb/influxdb:2.0.0-rc
 ```
 
 Run/restart/stop influxdb: `docker start/restart/stop influxdb`
