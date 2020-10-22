@@ -1683,7 +1683,7 @@ duration@^0.2.2:
     d "1"
     es5-ext "~0.10.46"
 
-"dymon@link:./Dymon":
+"dymon@link:./packages/dymon":
   version "0.0.0"
   uid ""
 
