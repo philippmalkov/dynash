@@ -11,3 +11,6 @@ yarn-error.log*
 .vscode
 
 .env
+
+# Generated Dynamo Tables content
+db/generation/generated
