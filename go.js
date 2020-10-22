@@ -97,6 +97,8 @@ function main() {
         main();
       }, tools.getRandomFromArray([
         500, // 500ms
+        1000, // 1s
+        3 * 1000, // 3s
         5 * 1000, // 5s
         10 * 1000, // 10s
         60 * 1000, // 1m

@@ -5,7 +5,7 @@ class RequestScope {
   /**
    * Stores scoped request data
    * @param {string} caller
-   * @param {Object} request
+   * @param {object} request
    * @param {module:Dymon.BaseChannel[]} outputChannels
    */
   constructor({ caller, request, outputChannels }) {
@@ -27,7 +27,18 @@ class RequestScope {
 
     return Promise.all(
       this.outputChannels.map(outputChannel => outputChannel.send(output)),
-    );
+    ).catch(err => console.warn('WARN! Error in StatsD channel:', err)); // eslint-disable-line no-console
+  }
+
+  /**
+   * @param {Error} error
+   */
+  registerError(error) {
+    const { request } = this;
+
+    return Promise.all(
+      this.outputChannels.map(outputChannel => outputChannel.error(request, error)),
+    ).catch(err => console.warn('WARN! Error in StatsD channel:', err)); // eslint-disable-line no-console
   }
 }
 

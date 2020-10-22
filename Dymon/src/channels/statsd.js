@@ -2,9 +2,6 @@ const StatsD = require('hot-shots');
 const lo = require('lodash');
 const BaseChannel = require('./base');
 
-/**
- * @class module:Dymon.BaseChannel
- */
 class StatsDChannel extends BaseChannel {
   constructor(props) {
     super(props);
@@ -13,14 +10,8 @@ class StatsDChannel extends BaseChannel {
       prefix: 'dyn_',
       telegraf: true,
       globalTags: { env: process.env.NODE_ENV },
-      errorHandler: this.errorHandler.bind(this),
       protocol: 'udp',
     });
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  errorHandler(err) {
-    console.error(err);
   }
 
   /**
@@ -30,14 +21,7 @@ class StatsDChannel extends BaseChannel {
    * @returns {Promise<void>}
    */
   async send(output) {
-    const { common, tables } = output;
-
-    console.info('Common output:');
-    console.dir(common);
-    tables.forEach((table) => {
-      console.info(`Table ${table.tableName} output:`);
-      console.dir(table);
-    });
+    const { common } = output;
 
     await this.timing('invocations', 1, {
       operation: common.operation,
@@ -116,8 +100,14 @@ class StatsDChannel extends BaseChannel {
         ) : null,
       ])),
     );
+  }
 
-    console.log('Received output is registered in StatsD.');
+  async error(request) {
+    const { operation } = request;
+
+    await this.timing('httpRetries', 1, {
+      operation,
+    });
   }
 
   /**

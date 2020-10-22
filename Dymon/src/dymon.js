@@ -64,6 +64,8 @@ class Dymon {
         if (reqCallback) {
           return originalFunction.call(Dynamo, request, (reqError, reqResponse) => {
             if (!reqError) {
+              requestScope.registerError(reqError);
+
               return reqCallback(reqError, reqResponse);
             }
 
@@ -78,7 +80,14 @@ class Dymon {
         const requestPromise = req.promise();
         req.promise = () => requestPromise;
 
-        requestPromise.then(reqResponse => requestScope.registerResponse(reqResponse));
+        requestPromise
+          .then((reqResponse) => {
+            requestScope.registerResponse(reqResponse);
+          })
+          .catch((reqError) => {
+            requestScope.registerError(reqError);
+            throw reqError;
+          });
 
         return req;
       };

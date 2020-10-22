@@ -1,0 +1,38 @@
+{
+ "meta": {
+  "version": "1",
+  "type": "variable",
+  "name": "tableName-Template",
+  "description": "template created from variable: tableName"
+ },
+ "content": {
+  "data": {
+   "type": "variable",
+   "id": "067fe6205d45a000",
+   "attributes": {
+    "name": "tableName",
+    "arguments": {
+     "type": "constant",
+     "values": [
+      "ALL",
+      "Department",
+      "Product",
+      "Supplier",
+      "SupplierProduct"
+     ]
+    },
+    "selected": null
+   },
+   "relationships": {
+    "variable": {
+     "data": []
+    },
+    "label": {
+     "data": []
+    }
+   }
+  },
+  "included": []
+ },
+ "labels": []
+}

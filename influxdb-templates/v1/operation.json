@@ -1,0 +1,46 @@
+{
+ "meta": {
+  "version": "1",
+  "type": "variable",
+  "name": "operation-Template",
+  "description": "template created from variable: operation"
+ },
+ "content": {
+  "data": {
+   "type": "variable",
+   "id": "067f08831505a000",
+   "attributes": {
+    "name": "operation",
+    "arguments": {
+     "type": "constant",
+     "values": [
+      "ALL",
+      "batchGetItem",
+      "batchWriteItem",
+      "deleteItem",
+      "getItem",
+      "putItem",
+      "query",
+      "scan",
+      "transactGetItems",
+      "transactWriteItems",
+      "updateItem"
+     ]
+    },
+    "selected": [
+     "ALL"
+    ]
+   },
+   "relationships": {
+    "variable": {
+     "data": []
+    },
+    "label": {
+     "data": []
+    }
+   }
+  },
+  "included": []
+ },
+ "labels": []
+}

@@ -1,17 +1,12 @@
 const Rate = require('../types/rate');
 
 /**
- * @class module:Dymon.BaseChannel
+ * @memberOf module:Dymon
  */
 class BaseChannel {
   constructor(props) {
     /** @type module:Dymon.Rate */
     this.rate = new Rate(props.rate);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  errorHandler(err) {
-    throw err;
   }
 
   checkBusy() {
@@ -62,6 +57,18 @@ class BaseChannel {
 
   // eslint-disable-next-line class-methods-use-this
   async send() {
+    // will be overwritten
+  }
+
+  /**
+   * Sends error to StatsD channel
+   * @async
+   * @param {object} request
+   * @param {Error} error
+   * @returns {Promise<void>}
+   */
+  // eslint-disable-next-line class-methods-use-this, no-unused-vars
+  async error(request, error) {
     // will be overwritten
   }
 
