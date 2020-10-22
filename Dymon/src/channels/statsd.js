@@ -118,9 +118,11 @@ class StatsDChannel extends BaseChannel {
   close() {
     return new Promise((resolve, reject) => {
       this.client.close((err) => {
-        if (err) reject(err);
+        if (err) {
+          reject(err);
+          return;
+        }
         resolve();
-        console.log('Connection with StatsD is closed.');
       });
     });
   }
