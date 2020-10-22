@@ -95,6 +95,18 @@ Deploy Dynamo:
 AWS_PROFILE=myaccess AWS_DEFAULT_REGION=eu-central-1 sls deploy
 ```
 
+Deploy Dynamo on local:
+
+```
+AWS_PROFILE=myaccess AWS_DEFAULT_REGION=eu-central-1 sls deploy --stage local
+```
+
+Before bootstrapping to localstack edit `.env` file:
+
+```
+AWS_ENDPOINT='http://localhost:4566'
+```
+
 Bootstrap sample Dynamo data:
 
 ```

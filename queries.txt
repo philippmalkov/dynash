@@ -1,2 +1,0 @@
-SELECT mean("mean") FROM "dyn_quantities" WHERE ("operation" =~ /^$operation$/ AND "type" = 'count') AND $timeFilter GROUP BY time(1s), "operation", "type"
-drop measurement dyn_ccu; drop measurement dyn_size; drop measurement dyn_duration; drop measurement dyn_invocations; drop measurement dyn_quantities; drop measurement dyn_httpRetries; show measurements

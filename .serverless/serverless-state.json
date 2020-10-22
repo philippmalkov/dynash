@@ -8,8 +8,7 @@
       "stage": "dev",
       "variableSyntax": "\\${([^{}:]+?(?:\\(|:)(?:[^:{}][^{}]*?)?)}",
       "name": "aws",
-      "profile": "myaccess",
-      "region": "eu-central-1",
+      "region": "us-east-1",
       "versionFunctions": true,
       "compiledCloudFormationTemplate": {
         "AWSTemplateFormatVersion": "2010-09-09",
@@ -242,6 +241,22 @@
         }
       }
     },
+    "custom": {
+      "localstack": {
+        "stages": [
+          "local"
+        ],
+        "host": "http://localhost",
+        "edgePort": 4566,
+        "autostart": false,
+        "docker": {
+          "sudo": false
+        }
+      }
+    },
+    "plugins": [
+      "serverless-localstack"
+    ],
     "pluginsData": {},
     "functions": {},
     "resources": {
@@ -351,18 +366,22 @@
     "initialServerlessConfig": {
       "service": "dynash",
       "provider": {
-        "name": "aws",
-        "profile": "myaccess",
-        "region": "eu-central-1"
+        "name": "aws"
       },
       "resources": {
         "$ref": "$[\"service\"][\"resources\"]"
+      },
+      "plugins": {
+        "$ref": "$[\"service\"][\"plugins\"]"
+      },
+      "custom": {
+        "$ref": "$[\"service\"][\"custom\"]"
       }
     },
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/dynash/dev/1603399770576-2020-10-22T20:49:30.576Z",
+    "artifactDirectoryName": "serverless/dynash/local/1603402824436-2020-10-22T21:40:24.436Z",
     "artifact": ""
   }
 }

@@ -28,7 +28,8 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "serverless": "^2.8.0"
+    "serverless": "^2.8.0",
+    "serverless-localstack": "^0.4.28"
   },
   "eslintConfig": {
     "root": true,
