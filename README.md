@@ -118,7 +118,7 @@ AWS_PROFILE=myaccess AWS_DEFAULT_REGION=eu-central-1 sls deploy
 Deploy Dynamo on local:
 
 ```
-AWS_PROFILE=myaccess AWS_DEFAULT_REGION=eu-central-1 sls deploy --stage local
+sls deploy --stage local
 ```
 
 Before bootstrapping to localstack edit `.env` file:
@@ -131,4 +131,10 @@ Bootstrap sample Dynamo data:
 
 ```
 yarn run generate
+```
+
+Bootstrap sample Dynamo data without interval between requests (the number is duration in `ms`):
+
+```
+yarn run generate 0
 ```

@@ -9,6 +9,11 @@ const { tables: tableNames, outputDirectory } = require('./constants/common');
 
 const Dynamo = require('../db');
 
+const inputInterval = Number(process.argv[2]);
+const INTERVAL_DURATION = Number.isNaN(inputInterval) || inputInterval < 0 ? 1000 : inputInterval;
+
+console.info('Interval is set to:', INTERVAL_DURATION);
+
 (async () => {
   try {
     await fs.mkdir(outputDirectory);
@@ -98,8 +103,10 @@ const Dynamo = require('../db');
         break tablesCycle; // eslint-disable-line no-labels
       }
 
-      console.info('Waiting for a second...');
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      if (INTERVAL_DURATION) {
+        console.info(`Waiting for ${INTERVAL_DURATION} ms...`);
+        await new Promise(resolve => setTimeout(resolve, INTERVAL_DURATION));
+      }
     }
 
     tableIdx += 1;
