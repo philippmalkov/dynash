@@ -13,6 +13,8 @@ const updateProductsViaTransaction = require('./db-queries/updateProductsViaTran
 const scanSuppliersByNameBeginning = require('./db-queries/scanSuppliersByNameBeginning');
 const updateProduct = require('./db-queries/updateProduct');
 
+const globalCacheUpdateDurations = [10, 15, 20];
+
 const setOfMiniDurations = [
   0,
   300, // 300ms
@@ -33,6 +35,13 @@ const fullSetOfDurations = [
   2 * 60 * 1000, // 2m
 ];
 
+const GlobalCache = {
+  departments: [],
+  products: [],
+  suppliers: [],
+  suppliersProducts: [],
+};
+
 const waitFor = ms => new Promise((resolve) => {
   console.log('\nWaiting for', ms, 'ms...\n');
 
@@ -40,20 +49,7 @@ const waitFor = ms => new Promise((resolve) => {
 });
 
 async function go() {
-  const allDepartments = await db.scan({ TableName: 'Department' }).promise();
-  const allProducts = await db.scan({ TableName: 'Product' }).promise();
-  const allSuppliers = await db.scan({ TableName: 'Supplier' }).promise();
-  const allSuppliersProducts = await db.scan({ TableName: 'SupplierProduct' }).promise();
-
-  console.info(
-    'We have '
-    + `${allDepartments.Items.length} departments, `
-    + `${allProducts.Items.length} products, `
-    + `${allSuppliers.Items.length} suppliers, `
-    + `${allSuppliersProducts.Items.length} suppliers products.`,
-  );
-
-  const productToDelete = tools.getRandomFromArray(allProducts.Items);
+  const productToDelete = tools.getRandomFromArray(GlobalCache.products.Items);
 
   console.log(`Deleting #${productToDelete.Id.S} product...`);
   await deleteProduct(productToDelete);
@@ -74,15 +70,16 @@ async function go() {
   await waitFor(tools.getRandomFromArray(setOfMiniDurations));
 
   console.log(`Requesting #${productToDelete.Id.S} product suppliers...`);
-  const queriedProductSuppliers = (await getProductSuppliers(productToDelete)).Items
-    .slice(0, tools.getRandomInt(8, 200));
+  const queriedProductSuppliers = await getProductSuppliers(productToDelete);
+  const partOfQueriedProductSuppliers = queriedProductSuppliers.Items
+    .slice(0, tools.getRandomInt(8, Math.trunc(queriedProductSuppliers.Items.length * 0.8)));
   console.log(`#${productToDelete.Id.S} product suppliers are received.`);
 
   await waitFor(tools.getRandomFromArray(setOfMiniDurations));
 
   console.log(`Requesting #${productToDelete.Id.S} product suppliers details...`);
   const suppliersBG = await batchGetSuppliers(
-    queriedProductSuppliers.map(i => i.SupplierId.S),
+    partOfQueriedProductSuppliers.map(i => i.SupplierId.S),
   );
   console.log(`#${productToDelete.Id.S} product supplier details are received.`);
 
@@ -90,7 +87,7 @@ async function go() {
 
   console.log(`Deleting #${productToDelete.Id.S} product suppliers...`);
   await batchDeleteSuppliers(
-    queriedProductSuppliers.map(i => i.SupplierId.S),
+    partOfQueriedProductSuppliers.map(i => i.SupplierId.S),
   );
   console.log(`#${productToDelete.Id.S} product suppliers are deleted.`);
 
@@ -104,7 +101,7 @@ async function go() {
 
   console.log(`Requesting #${productToDelete.Id.S} product suppliers via transaction...`);
   await getSuppliersViaTransaction(
-    queriedProductSuppliers.map(i => i.SupplierId.S),
+    partOfQueriedProductSuppliers.map(i => i.SupplierId.S),
   );
   console.log(`#${productToDelete.Id.S} product suppliers are received.`);
 
@@ -113,21 +110,21 @@ async function go() {
   const numberOfProductsToUpdate = tools.getRandomInt(5, 120);
 
   console.log(`Updating ${numberOfProductsToUpdate} random products via transaction...`);
-  await updateProductsViaTransaction(allProducts, numberOfProductsToUpdate);
+  await updateProductsViaTransaction(GlobalCache.products, numberOfProductsToUpdate);
   console.log(`${numberOfProductsToUpdate} random products are updated.`);
 
   await waitFor(tools.getRandomFromArray(setOfMiniDurations));
 
-  const randomSupplierName = tools.getRandomFromArray(allSuppliers.Items).Name.S;
+  const randomSupplierName = tools.getRandomFromArray(GlobalCache.suppliers.Items).Name.S;
   const first3Letters = randomSupplierName.slice(0, 3);
 
   console.log(`Searching for supplier who's name begins with '${first3Letters}' letters...`);
-  const scannedSuppliers = await scanSuppliersByNameBeginning(allSuppliers, first3Letters);
+  const scannedSuppliers = await scanSuppliersByNameBeginning(GlobalCache.suppliers, first3Letters);
   console.log(`Suppliers with ${scannedSuppliers.Items.map(s => `'${s.Name.S}'`).join(', ')} names are received.`);
 
   await waitFor(tools.getRandomFromArray(setOfMiniDurations));
 
-  const randomProduct = tools.getRandomFromArray(allProducts.Items);
+  const randomProduct = tools.getRandomFromArray(GlobalCache.products.Items);
 
   console.log(`Updating #${randomProduct.Id.S} product...`);
   const updatedProduct = await updateProduct(randomProduct);
@@ -138,6 +135,9 @@ async function go() {
 }
 
 (async () => {
+  await updateGlobalCache();
+
+  let i = 0;
   /* eslint-disable no-await-in-loop, no-constant-condition */
   // noinspection InfiniteLoopJS
   while (true) {
@@ -146,6 +146,11 @@ async function go() {
     } catch (err) {
       console.error('An unexpected error occurred while going through the way:', err);
     } finally {
+      i += 1;
+      if (i % tools.getRandomFromArray(globalCacheUpdateDurations) === 0) {
+        await updateGlobalCache();
+      }
+
       const msToWait = tools.getRandomFromArray(fullSetOfDurations);
 
       await waitFor(msToWait);
@@ -153,3 +158,18 @@ async function go() {
   }
   /* eslint-enable no-await-in-loop, no-constant-condition */
 })();
+
+async function updateGlobalCache() {
+  GlobalCache.departments = await db.scan({ TableName: 'Department' }).promise();
+  GlobalCache.products = await db.scan({ TableName: 'Product' }).promise();
+  GlobalCache.suppliers = await db.scan({ TableName: 'Supplier' }).promise();
+  GlobalCache.suppliersProducts = await db.scan({ TableName: 'SupplierProduct' }).promise();
+
+  console.info(
+    'Global cache updated. We have: '
+    + `${GlobalCache.departments.Items.length} departments, `
+    + `${GlobalCache.products.Items.length} products, `
+    + `${GlobalCache.suppliers.Items.length} suppliers, `
+    + `${GlobalCache.suppliersProducts.Items.length} suppliers products.`,
+  );
+}
