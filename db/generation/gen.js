@@ -5,7 +5,7 @@ const {
   getRandomFromArray,
   UniqueList,
   UniqueUUID,
-  d2c,
+  dollars2cents,
 } = require('./tools');
 
 const names = require('./constants/names');
@@ -35,7 +35,7 @@ function gen() {
       return {
         id,
         title: `Item#${id}`,
-        price: getRandomInt(d2c(30), d2c(6000)),
+        price: getRandomInt(dollars2cents(30), dollars2cents(6000)),
         departmentId: getRandomFromArray(departments).id,
       };
     });
@@ -66,7 +66,7 @@ function gen() {
           return {
             productId: product.id,
             supplierId: supplier.id,
-            price: getRandomInt(product.price, product.price + d2c(50)),
+            price: getRandomInt(product.price, product.price + dollars2cents(50)),
             quantity: getRandomInt(5, 600000),
           };
         });

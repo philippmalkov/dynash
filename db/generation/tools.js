@@ -37,7 +37,7 @@ function* UniqueUUID(length = 6) {
   }
 }
 
-function d2c(dollars) {
+function dollars2cents(dollars) {
   return dollars * 100;
 }
 
@@ -90,7 +90,7 @@ module.exports = {
   getRandomFromArray,
   UniqueList,
   UniqueUUID,
-  d2c,
+  dollars2cents,
   getCachedFilesNames,
   loadCache,
 };

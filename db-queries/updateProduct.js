@@ -12,7 +12,7 @@ function updateProduct(product) {
     UpdateExpression: 'SET Price = Price + :d50',
     ExpressionAttributeValues: {
       ':d50': {
-        N: tools.d2c(50).toString(),
+        N: tools.dollars2cents(50).toString(),
       },
     },
     ReturnValues: 'UPDATED_NEW',

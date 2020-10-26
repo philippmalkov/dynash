@@ -24,7 +24,7 @@ async function updateProductsViaTransaction(allProducts, numberOfProductsToUpdat
           UpdateExpression: 'SET Price = Price - :d30',
           ExpressionAttributeValues: {
             ':d30': {
-              N: tools.d2c(30).toString(),
+              N: tools.dollars2cents(30).toString(),
             },
           },
         },
