@@ -412,7 +412,7 @@
       "shape": "chronograf-v2",
       "queries": [
        {
-        "text": "from(bucket: \"philipp_dynash\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> map(fn: (r) => ({\n    r with\n    _value: float(v: r._value) / 1024.0 / 1024.0,\n    type: (if r.type == \"input\" then \"Request Size\" else \"Response Size\")\n  }))\n  |> filter(fn: (r) => r[\"_measurement\"] == \"dyn_size\" and r[\"_field\"] == \"mean\" and (v.operation == \"ALL\" or v.operation == r.operation))\n  |> group(columns: [\"type\", \"operation\"])\n  |> sort(columns: [\"_time\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)",
+        "text": "from(bucket: \"philipp_dynash\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> map(fn: (r) => ({\n    r with\n    _value: float(v: r._value) / 1024.0,\n    type: (if r.type == \"input\" then \"Request Size\" else \"Response Size\")\n  }))\n  |> filter(fn: (r) => r[\"_measurement\"] == \"dyn_size\" and r[\"_field\"] == \"mean\" and (v.operation == \"ALL\" or v.operation == r.operation))\n  |> group(columns: [\"type\", \"operation\"])\n  |> sort(columns: [\"_time\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: true)",
         "editMode": "advanced",
         "name": "",
         "builderConfig": {
@@ -455,7 +455,7 @@
         ],
         "label": "",
         "prefix": "",
-        "suffix": " MB",
+        "suffix": " KB",
         "base": "2",
         "scale": "linear"
        }
@@ -695,7 +695,7 @@
     "type": "view",
     "id": "067f1908c685a000",
     "attributes": {
-     "name": "TOP 5 Hottest Operations",
+     "name": "TOP 5 Most Frequent Operations",
      "properties": {
       "shape": "chronograf-v2",
       "type": "table",
@@ -907,7 +907,7 @@
     "type": "view",
     "id": "06803d304d169000",
     "attributes": {
-     "name": "TOP 5 Devouring Operations",
+     "name": "TOP 5 Consuming Operations",
      "properties": {
       "shape": "chronograf-v2",
       "type": "table",
